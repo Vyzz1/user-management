@@ -3,13 +3,70 @@ import users from "../data/user.js";
 class UserController {
   async getUsers(req, res) {
     try {
-      setTimeout(() => {
-        res.status(200).json(
-          users.sort((a, b) => {
-            return new Date(b.createdAt) - new Date(a.createdAt);
-          })
-        );
-      }, 500);
+      const {
+        pageSize,
+        currentPage,
+        sortOrder,
+        sortField,
+        filter_gender,
+        inputSearch,
+      } = req.query;
+
+      let filteredUsers = [...users];
+
+      if (filter_gender) {
+        const gender_arr = filter_gender.split(",");
+
+        filteredUsers = filteredUsers.filter((user) => {
+          return gender_arr.includes(user.gender);
+        });
+      }
+
+      if (sortField && sortOrder) {
+        filteredUsers.sort((a, b) => {
+          if (sortOrder === "ascend") {
+            return a[sortField].localeCompare(b[sortField]);
+          } else {
+            return b[sortField].localeCompare(a[sortField]);
+          }
+        });
+      }
+      if (inputSearch) {
+        const searchLower = inputSearch.toLowerCase();
+        filteredUsers = filteredUsers.filter((user) => {
+          return (
+            user.name.toLowerCase().includes(searchLower) ||
+            user.email.toLowerCase().includes(searchLower) ||
+            user.city.toLowerCase().includes(searchLower)
+          );
+        });
+      }
+
+      const pageSizeNum = parseInt(pageSize, 10) || 10;
+      const currentPageNum = parseInt(currentPage, 10) || 1;
+      const totalCount = filteredUsers.length;
+      const totalPages = Math.ceil(totalCount / pageSizeNum);
+
+      let paginatedUsers = filteredUsers;
+      if (pageSize && currentPage) {
+        const startIndex = (currentPageNum - 1) * pageSizeNum;
+        const endIndex = startIndex + pageSizeNum;
+        paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      res.status(200).json({
+        data: paginatedUsers,
+        pagination: {
+          total: totalCount,
+          currentPage: currentPageNum,
+          pageSize: pageSizeNum,
+          totalPages,
+          hasNextPage: currentPageNum < totalPages,
+          hasPrevPage: currentPageNum > 1,
+        },
+      });
     } catch (error) {
       console.error("Error fetching users:", error);
       res.status(500).json({ message: "Internal Server Error" });

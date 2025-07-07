@@ -1,0 +1,64 @@
+{
+  "appTitle": "User Management",
+
+  "resetFilter": "Reset Filter",
+  "deleteConfirm": {
+    "title": "Delete {{term}} ?",
+    "description": "Are you sure to delete this {{term}}?",
+    "ok": "Yes",
+    "cancel": "No",
+    "button": "Delete",
+    "success": "User deleted successfully",
+    "error": "Failed to delete user"
+  },
+  "userForm": {
+    "editTitle": "Edit User",
+    "addTitle": "Add User",
+    "name": "Name",
+    "avatar": "Avatar",
+    "gender": "Gender",
+    "city": "City",
+    "dateOfBirth": "Date of Birth",
+    "cancle": "Cancel",
+    "submit": "Submit",
+    "genderOptions": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "error": {
+      "name": "Name is required",
+      "avatar": "Avatar is required",
+      "gender": "Gender is required",
+      "city": "City is required",
+      "dateOfBirth": "Date of Birth is required",
+      "email": "Email is required",
+      "futureDate": "Date of Birth cannot be in the future",
+      "eighteenYearsOld": "You must be at least 18 years old"
+    },
+    "errorMsg": "An error occurred",
+    "updatedMsg": "User updated successfully",
+    "createdMsg": "User created successfully"
+  },
+  "userTable": {
+    "columnSettings": "Column Settings",
+    "selectColumns": "Select columns to display",
+    "searchPlaceHolder": "Search by name, email, or city",
+    "columns": {
+      "name": "Name",
+      "infor": "Information",
+      "city": "City",
+      "action": "Action",
+      "createdAt": "Created At"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "no": "No",
+      "yes": "Yes"
+    },
+    "filter": {
+      "male": "Male",
+      "female": "Female"
+    }
+  }
+}

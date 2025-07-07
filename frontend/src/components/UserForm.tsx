@@ -11,9 +11,9 @@ import {
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
-import useSubmitData from "../hooks/useSubmitData";
-import { useQueryClient } from "@tanstack/react-query";
 import CustomButton from "./styles/CustomButton.style";
+import { useTranslation } from "react-i18next";
+import { useCreateOrUpdateUserMutation } from "../features/user/userApiSlice";
 interface UserFormProps {
   isEdit?: boolean;
   inititalValues?: User;
@@ -41,6 +41,17 @@ export default function UserForm({
   inititalValues,
   onSubmit,
 }: UserFormProps) {
+  const { t } = useTranslation();
+
+  const userFormLng = t("userForm") as unknown as Record<string, string>;
+
+  const errorMsg = userFormLng.error as unknown as Record<string, string>;
+
+  const genderOptions = userFormLng.genderOptions as unknown as Record<
+    string,
+    string
+  >;
+
   const [open, setOpen] = useState(false);
   const buttonTrigger = (
     <CustomButton
@@ -50,30 +61,25 @@ export default function UserForm({
       glow
       customVariant="gradient"
     >
-      {isEdit ? "Edit User" : "Add User"}
+      {isEdit ? userFormLng.editTitle : userFormLng.addTitle}
     </CustomButton>
   );
 
   const [form] = Form.useForm<UserForm>();
-  const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useSubmitData(
-    isEdit ? `/users/${inititalValues?.id}` : "/users",
-    () => {
+  const [mutation, { isLoading: isPending, isSuccess, reset }] =
+    useCreateOrUpdateUserMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      reset();
       onSubmit?.();
-      queryClient.invalidateQueries({
-        queryKey: ["fetchData", "/users"],
-      });
-      message.success(`User ${isEdit ? "updated" : "added"} successfully`);
-      setOpen(false);
-    },
-    (error: any) => {
-      console.error("Error submitting user data:", error);
 
-      const messageError = error.response?.data?.message || "Unknown error";
-      message.error(messageError);
+      message.success(isEdit ? userFormLng.updatedMsg : userFormLng.createdMsg);
+
+      setOpen(false);
     }
-  );
+  }, [isSuccess, isEdit, userFormLng, onSubmit, reset]);
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -111,9 +117,10 @@ export default function UserForm({
           : new Date(values.birthdate),
     };
 
-    mutate({
-      data: transformedValues,
-      type: isEdit ? "put" : "post",
+    mutation({
+      ...transformedValues,
+      isEdit: isEdit || false,
+      id: inititalValues?.id,
     });
   };
 
@@ -129,7 +136,7 @@ export default function UserForm({
             setOpen(false);
           }
         }}
-        title={isEdit ? "Edit User" : "Add User"}
+        title={isEdit ? userFormLng.editTitle : userFormLng.addTitle}
       >
         <FormCard>
           <Form<UserForm>
@@ -144,7 +151,7 @@ export default function UserForm({
               rules={[
                 {
                   required: true,
-                  message: "Please input your email!",
+                  message: errorMsg.email || "Email is required",
                   type: "email",
                 },
               ]}
@@ -152,20 +159,25 @@ export default function UserForm({
               <Input readOnly={isEdit} disabled={isEdit} />
             </Form.Item>
             <Form.Item
-              label="Name"
+              label={userFormLng.name}
               name="name"
-              rules={[{ required: true, message: "Please input your name!" }]}
+              rules={[
+                {
+                  required: true,
+                  message: errorMsg.name || "Name is required",
+                },
+              ]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="Avatar"
+              label={userFormLng.avatar}
               name="avatar"
               rules={[
                 {
                   required: true,
-                  message: "Please input proper avatar!",
+                  message: errorMsg.avatar || "Avatar is required",
                   type: "url",
                 },
               ]}
@@ -176,12 +188,12 @@ export default function UserForm({
             <Flex gap={16}>
               <Form.Item
                 style={{ flex: 1 }}
-                label="Gender"
+                label={userFormLng.gender}
                 name="gender"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your gender!",
+                    message: errorMsg.gender || "Gender is required",
                     type: "string",
                   },
                 ]}
@@ -190,11 +202,11 @@ export default function UserForm({
                   options={[
                     {
                       value: "female",
-                      label: "Female",
+                      label: genderOptions.male,
                     },
                     {
                       value: "male",
-                      label: "Male",
+                      label: genderOptions.female,
                     },
                   ]}
                 />
@@ -202,12 +214,12 @@ export default function UserForm({
 
               <Form.Item
                 style={{ flex: 1 }}
-                label="City"
+                label={userFormLng.city}
                 name="city"
                 rules={[
                   {
                     required: true,
-                    message: "Please input your city!",
+                    message: errorMsg.city || "City is required",
                     type: "string",
                   },
                 ]}
@@ -217,12 +229,12 @@ export default function UserForm({
             </Flex>
 
             <Form.Item
-              label="Date of Birth"
+              label={userFormLng.dateOfBirth}
               name="birthdate"
               rules={[
                 {
                   required: true,
-                  message: "Please select your date of birth!",
+                  message: errorMsg.dateOfBirth || "Date of Birth is required",
                 },
                 {
                   validator: (_, value) => {
@@ -236,13 +248,19 @@ export default function UserForm({
 
                     if (selectedDate.isAfter(today)) {
                       return Promise.reject(
-                        new Error("Date of birth cannot be in the future!")
+                        new Error(
+                          errorMsg.futureDate ||
+                            "Date of Birth cannot be in the future"
+                        )
                       );
                     }
 
                     if (selectedDate.isAfter(eighteenYearsAgo)) {
                       return Promise.reject(
-                        new Error("You must be at least 18 years old!")
+                        new Error(
+                          errorMsg.eighteenYearsOld ||
+                            "You must be at least 18 years old"
+                        )
                       );
                     }
 
@@ -254,7 +272,6 @@ export default function UserForm({
               <DatePicker
                 style={{ width: "100%" }}
                 format="YYYY-MM-DD"
-                placeholder="Select date of birth"
                 disabledDate={(current) => {
                   const today = dayjs();
                   const eighteenYearsAgo = today.subtract(18, "year");
@@ -272,10 +289,10 @@ export default function UserForm({
                 htmlType="button"
                 onClick={() => setOpen(false)}
               >
-                Cancel
+                {userFormLng.cancle || "Cancel"}
               </Button>
               <Button loading={isPending} type="primary" htmlType="submit">
-                {isEdit ? "Update" : "Add"}
+                {userFormLng.submit || "Submit"}
               </Button>
             </Flex>
           </Form>

@@ -11,16 +11,22 @@
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.11",
-    "@tanstack/react-query": "^5.56.2",
     "@types/styled-components": "^5.1.34",
     "antd": "^5.26.3",
     "axios": "^1.10.0",
     "date-fns": "^4.1.0",
+    "i18next": "^25.3.0",
+    "i18next-http-backend": "^3.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-i18next": "^15.5.3",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.2.0",
     "styled-components": "^6.1.19",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "use-debounce": "^10.0.5"
   },
   "resolutions": {
     "styled-components": "^5"

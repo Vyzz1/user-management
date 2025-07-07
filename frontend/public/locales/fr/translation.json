@@ -1,0 +1,63 @@
+{
+  "appTitle": "Gestion des utilisateurs",
+  "resetFilter": "Réinitialiser le filtre",
+  "deleteConfirm": {
+    "title": "Supprimer {{term}} ?",
+    "description": "Êtes-vous sûr de vouloir supprimer ce {{term}} ?",
+    "ok": "Oui",
+    "cancel": "Non",
+    "button": "Supprimer",
+    "success": "Utilisateur supprimé avec succès",
+    "error": "Échec de la suppression de l'utilisateur"
+  },
+  "userForm": {
+    "genderOptions": {
+      "male": "Homme",
+      "female": "Femme"
+    },
+    "editTitle": "Modifier l'utilisateur",
+    "addTitle": "Ajouter un utilisateur",
+    "name": "Nom",
+    "avatar": "Avatar",
+    "gender": "Genre",
+    "city": "Ville",
+    "dateOfBirth": "Date de naissance",
+    "cancle": "Annuler",
+    "submit": "Soumettre",
+    "error": {
+      "name": "Le nom est requis",
+      "avatar": "L'avatar est requis",
+      "gender": "Le genre est requis",
+      "city": "La ville est requise",
+      "dateOfBirth": "La date de naissance est requise",
+      "email": "L'e-mail est requis",
+      "futureDate": "La date de naissance ne peut pas être dans le futur",
+      "eighteenYearsOld": "Vous devez avoir au moins 18 ans"
+    },
+    "errorMsg": "Une erreur s'est produite",
+    "updatedMsg": "Utilisateur modifié avec succès",
+    "createdMsg": "Utilisateur créé avec succès"
+  },
+  "userTable": {
+    "columnSettings": "Paramètres des colonnes",
+    "selectColumns": "Sélectionner les colonnes à afficher",
+    "searchPlaceHolder": "Rechercher par nom, e-mail ou ville",
+    "columns": {
+      "name": "Nom",
+      "infor": "Information",
+      "city": "Ville",
+      "action": "Action",
+      "createdAt": "Créé à"
+    },
+    "actions": {
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "no": "Aucun",
+      "yes": "Oui"
+    },
+    "filter": {
+      "male": "Homme",
+      "female": "Femme"
+    }
+  }
+}

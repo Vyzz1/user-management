@@ -1,0 +1,63 @@
+{
+  "appTitle": "Quản lý người dùng",
+  "resetFilter": "Đặt lại bộ lọc",
+  "deleteConfirm": {
+    "title": "Xoá {{term}} ?",
+    "description": "Bạn có chắc chắn muốn xoá {{term}} này không?",
+    "ok": "Có",
+    "cancel": "Không",
+    "button": "Xoá",
+    "success": "Người dùng đã được xoá thành công",
+    "error": "Xoá người dùng không thành công"
+  },
+  "userForm": {
+    "genderOptions": {
+      "male": "Nam",
+      "female": "Nữ"
+    },
+    "editTitle": "Chỉnh sửa",
+    "addTitle": "Thêm người dùng",
+    "name": "Tên",
+    "avatar": "Ảnh đại diện",
+    "gender": "Giới tính",
+    "city": "Thành phố",
+    "dateOfBirth": "Ngày sinh",
+    "cancle": "Hủy",
+    "submit": "Gửi",
+    "error": {
+      "name": "Tên là bắt buộc",
+      "avatar": "Ảnh đại diện là bắt buộc",
+      "gender": "Giới tính là bắt buộc",
+      "city": "Thành phố là bắt buộc",
+      "dateOfBirth": "Ngày sinh là bắt buộc",
+      "email": "Email là bắt buộc",
+      "futureDate": "Ngày sinh không được trong tương lai",
+      "eighteenYearsOld": "Bạn phải ít nhất 18 tuổi"
+    },
+    "errorMsg": "Lỗi xảy ra",
+    "updatedMsg": "Cập nhật người dùng thành công",
+    "createdMsg": "Tạo người dùng thành công"
+  },
+  "userTable": {
+    "columnSettings": "Cài đặt cột",
+    "selectColumns": "Chọn cột để hiển thị",
+    "searchPlaceHolder": "Tìm kiếm theo tên, email hoặc thành phố",
+    "columns": {
+      "name": "Tên",
+      "infor": "Thông tin",
+      "city": "Thành phố",
+      "action": "Hành động",
+      "createdAt": "Được tạo lúc"
+    },
+    "actions": {
+      "edit": "Chỉnh sửa",
+      "delete": "Xoá",
+      "no": "Không",
+      "yes": "Có"
+    },
+    "filter": {
+      "male": "Nam",
+      "female": "Nữ"
+    }
+  }
+}

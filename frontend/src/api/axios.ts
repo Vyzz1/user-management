@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const baseURL = `http://localhost:8000/api`;
+export const baseURL = `https://user-management-server-red.vercel.app/api`;
 
 export default axios.create({
   baseURL: baseURL,
